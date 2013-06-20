@@ -22,7 +22,11 @@ class jenkins::package {
     require => Exec["add_jenkins_apt_key"],
     notify => Exec["apt-update"]
   }
-
+  
+  exec { "apt-update":
+          command     => "/usr/bin/apt-get update",
+          refreshonly => true;
+  }
   package { "jenkins":
     ensure => installed,
     require => File["/etc/apt/sources.list.d/jenkins.list"]
