@@ -34,4 +34,12 @@ class jenkins::files(
     owner => jenkins,
     group => nogroup
   }
+  
+  file { "/etc/default/jenkins":
+    source => 'puppet:///modules/jenkins/jenkins_default'
+    ensure => present,
+    owner  => root,
+    group  => root,
+    mode   => '0644',
+  }
 }
