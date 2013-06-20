@@ -8,7 +8,7 @@ class jenkins::user {
   file { "/var/lib/jenkins":
     ensure => directory,
     owner => jenkins,
-    group => adm,
+    group => puppet,
     mode => 0755,
     require => User[jenkins]
   }
