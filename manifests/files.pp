@@ -36,7 +36,7 @@ class jenkins::files(
   }
   
   file { "/etc/default/jenkins":
-    source => 'puppet:///modules/jenkins/jenkins_default'
+    source => 'puppet:///modules/jenkins/jenkins_default',
     ensure => present,
     owner  => root,
     group  => root,
