@@ -24,6 +24,8 @@ class jenkins::files(
 
   file { "/var/lib/jenkins/jobs":
     ensure => directory,
+    owner => jenkins,
+    group => nogroup,
     recurse => true,
     purge => true,
     force => true
