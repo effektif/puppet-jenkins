@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
   <disabledAdministrativeMonitors/>
-  <version><%= jenkins_version %></version>
+  <version><%= @jenkins_version %></version>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
@@ -15,7 +15,7 @@
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
   <clouds/>
   <slaves>
-<% slaves.each do |slave| -%>
+<% @slaves.each do |slave| -%>
     <slave>
       <name><%= slave %></name>
       <description></description>
@@ -36,7 +36,7 @@
   <quietPeriod>5</quietPeriod>
   <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
   <views>
-<% views.each do |name, pattern, jobs| -%>
+<% @views.each do |name, pattern, jobs| -%>
     <listView>
       <owner class="hudson" reference="../../.."/>
       <name><%= name %></name>

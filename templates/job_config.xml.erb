@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description><%= description %></description>
+  <description><%= @description %></description>
 <% if !log_rotator.empty? -%>
   <logRotator>
-    <daysToKeep><%= log_rotator["days_to_keep"] %></daysToKeep>
+    <daysToKeep><%= @log_rotator["days_to_keep"] %></daysToKeep>
     <numToKeep>-1</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
@@ -13,7 +13,7 @@
   <keepDependencies>false</keepDependencies><% if !properties.empty? %>
     <properties>
        <hudson.model.ParametersDefinitionProperty>
-         <parameterDefinitions><% properties.each do |param| %><% if param["type"].eql?("string") %>
+         <parameterDefinitions><% @properties.each do |param| %><% if param["type"].eql?("string") %>
                <hudson.model.StringParameterDefinition>
                  <name><%= param["name"] %></name>
                  <description><%= param["description"] %></description>
@@ -38,20 +38,20 @@
       <hudson.plugins.git.UserRemoteConfig>
         <name>origin</name>
         <refspec>+refs/heads/*:refs/remotes/origin/*</refspec>
-        <url><%= git_repo %></url>
+        <url><%= @git_repo %></url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name><%= git_branch %></name>
+        <name><%= @git_branch %></name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <disableSubmodules>false</disableSubmodules>
     <recursiveSubmodules>false</recursiveSubmodules>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
     <authorOrCommitter>false</authorOrCommitter>
-    <clean><%= git_clean %></clean>
-    <wipeOutWorkspace><%= git_wipe_out_workspace %></wipeOutWorkspace>
+    <clean><%= @git_clean %></clean>
+    <wipeOutWorkspace><%= @git_wipe_out_workspace %></wipeOutWorkspace>
     <pruneBranches>false</pruneBranches>
     <remotePoll>false</remotePoll>
     <ignoreNotifyCommit>false</ignoreNotifyCommit>
@@ -73,25 +73,25 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-<% if poll || build_schedule || !url_trigger.empty? -%>
+<% if @poll || build_schedule || !url_trigger.empty? -%>
     <triggers class="vector">
-    <% if poll -%>
+    <% if @poll -%>
     <hudson.triggers.SCMTrigger>
       <spec>*/5 * * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
     <% end -%>
-    <% if build_schedule -%>
+    <% if @build_schedule -%>
     <hudson.triggers.TimerTrigger>
-      <spec><%= build_schedule %></spec>
+      <spec><%= @build_schedule %></spec>
     </hudson.triggers.TimerTrigger>
     <% end -%>
-    <% if !url_trigger.empty? -%>
+    <% if !@url_trigger.empty? -%>
     <org.jenkinsci.plugins.urltrigger.URLTrigger plugin="urltrigger@0.27">
       <spec>*/15 * * * *</spec>
       <entries>
         <org.jenkinsci.plugins.urltrigger.URLTriggerEntry>
-          <url><%= url_trigger["url"] %></url>
+          <url><%= @url_trigger["url"] %></url>
           <proxyActivated>false</proxyActivated>
           <checkStatus>false</checkStatus>
           <statusCode>200</statusCode>
@@ -106,7 +106,7 @@
       </entries>
       <labelRestriction>false</labelRestriction>
     </org.jenkinsci.plugins.urltrigger.URLTrigger>
-  <% end -%><% if !script_trigger.empty? -%>
+  <% end -%><% if !@script_trigger.empty? -%>
     <org.jenkinsci.plugins.scripttrigger.ScriptTrigger plugin="scripttrigger@0.21">
       <spec><%= script_trigger["schedule"] %></spec>
       <labelRestriction>false</labelRestriction>
@@ -122,12 +122,12 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command><%= command %></command>
+      <command><%= @command %></command>
     </hudson.tasks.Shell>
   </builders>
-<% if triggers.any? || html_publisher.any? || artifacts || nag_devchat || chuck_norris -%>
+<% if @triggers.any? || @html_publisher.any? || @artifacts || @nag_devchat || @chuck_norris -%>
   <publishers>
-    <% if triggers.any? -%>
+    <% if @triggers.any? -%>
       <hudson.tasks.BuildTrigger>
         <childProjects><%= triggers.join(",") %></childProjects>
         <threshold>
@@ -137,20 +137,20 @@
         </threshold>
       </hudson.tasks.BuildTrigger>
     <% end -%>
-    <% if artifacts -%>
+    <% if @artifacts -%>
     <hudson.tasks.ArtifactArchiver>
       <artifacts><%= artifacts %></artifacts>
       <latestOnly>false</latestOnly>
     </hudson.tasks.ArtifactArchiver>
     <% end -%>
-    <% if !junit_result.empty? %>
+    <% if !@junit_result.empty? %>
     <hudson.tasks.junit.JUnitResultArchiver>
       <testResults><%= junit_result["xml_file"] %></testResults>
       <keepLongStdio>false</keepLongStdio>
       <testDataPublishers/>
     </hudson.tasks.junit.JUnitResultArchiver>
     <% end %>
-    <% if !image_gallery.empty? %>
+    <% if !@image_gallery.empty? %>
       <org.jenkinsci.plugins.imagegallery.ImageGalleryRecorder plugin="image-gallery@1.0">
         <imageGalleries>
           <org.jenkinsci.plugins.imagegallery.imagegallery.ArchivedImagesGallery>
@@ -162,7 +162,7 @@
         </imageGalleries>
       </org.jenkinsci.plugins.imagegallery.ImageGalleryRecorder>
     <% end %>
-    <% if html_publisher.any? -%>
+    <% if @html_publisher.any? -%>
     <htmlpublisher.HtmlPublisher plugin="htmlpublisher@1.2">
       <reportTargets>
           <% html_publisher.each do |html| -%>
@@ -177,7 +177,7 @@
       </reportTargets>
     </htmlpublisher.HtmlPublisher>
     <% end -%>
-    <%- if nag_devchat -%>
+    <%- if @nag_devchat -%>
     <hudson.plugins.jabber.im.transport.JabberPublisher plugin="jabber@1.25">
       <targets>
         <hudson.plugins.im.GroupChatIMMessageTarget plugin="instant-messaging@1.25">
@@ -205,7 +205,7 @@
   <publishers/>
 <% end -%>
   <buildWrappers>
-    <% if random_ports.any? -%>
+    <% if @random_ports.any? -%>
       <org.jvnet.hudson.plugins.port__allocator.PortAllocator>
         <ports>
           <% random_ports.each do |port| %>
