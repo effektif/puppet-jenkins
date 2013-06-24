@@ -2,7 +2,7 @@
 <project>
   <actions/>
   <description><%= @description %></description>
-<% if !log_rotator.empty? -%>
+<% if !@log_rotator.empty? -%>
   <logRotator>
     <daysToKeep><%= @log_rotator["days_to_keep"] %></daysToKeep>
     <numToKeep>-1</numToKeep>
@@ -10,7 +10,7 @@
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
 <% end -%>
-  <keepDependencies>false</keepDependencies><% if !properties.empty? %>
+  <keepDependencies>false</keepDependencies><% if !@properties.empty? %>
     <properties>
        <hudson.model.ParametersDefinitionProperty>
          <parameterDefinitions><% @properties.each do |param| %><% if param["type"].eql?("string") %>
