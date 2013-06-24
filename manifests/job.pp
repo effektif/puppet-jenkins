@@ -20,6 +20,7 @@ define jenkins::job(
   $description = '',
   $nag_devchat = true,
   $chuck_norris = false,
+  $email_notification = false,
 ) {
   file { "/var/lib/jenkins/jobs/${job_name}":
     ensure => directory,

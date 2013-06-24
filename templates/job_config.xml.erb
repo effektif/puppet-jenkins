@@ -200,6 +200,13 @@
       <factGenerator/>
     </hudson.plugins.chucknorris.CordellWalkerRecorder>
     <% end %>
+    <% if @email_notification %>
+    <hudson.tasks.Mailer plugin="mailer@1.5">
+          <recipients><%= @email_notification %></recipients>
+          <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+          <sendToIndividuals>false</sendToIndividuals>
+    </hudson.tasks.Mailer>
+    <% end %>
   </publishers>
 <% else -%>
   <publishers/>
