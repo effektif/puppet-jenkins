@@ -125,7 +125,7 @@
       <command><%= command %></command>
     </hudson.tasks.Shell>
   </builders>
-<% if triggers.any? || html_publisher.any? || artifacts || nag_devchat -%>
+<% if triggers.any? || html_publisher.any? || artifacts || nag_devchat || chuck_norris -%>
   <publishers>
     <% if triggers.any? -%>
       <hudson.tasks.BuildTrigger>
@@ -195,6 +195,11 @@
       <matrixMultiplier>ONLY_CONFIGURATIONS</matrixMultiplier>
     </hudson.plugins.jabber.im.transport.JabberPublisher>
     <%- end -%>
+    <% if @chuck_norris %>
+    <hudson.plugins.chucknorris.CordellWalkerRecorder plugin="chucknorris@0.5">
+      <factGenerator/>
+    </hudson.plugins.chucknorris.CordellWalkerRecorder>
+    <% end %>
   </publishers>
 <% else -%>
   <publishers/>
