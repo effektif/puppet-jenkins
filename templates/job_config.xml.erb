@@ -145,7 +145,7 @@
     <% end -%>
     <% if !@junit_result.empty? %>
     <hudson.tasks.junit.JUnitResultArchiver>
-      <testResults><%= junit_result["xml_file"] %></testResults>
+      <testResults><%= @junit_result["xml_file"] %></testResults>
       <keepLongStdio>false</keepLongStdio>
       <testDataPublishers/>
     </hudson.tasks.junit.JUnitResultArchiver>
@@ -165,7 +165,7 @@
     <% if @html_publisher.any? -%>
     <htmlpublisher.HtmlPublisher plugin="htmlpublisher@1.2">
       <reportTargets>
-          <% html_publisher.each do |html| -%>
+          <% @html_publisher.each do |html| -%>
         <htmlpublisher.HtmlPublisherTarget>
           <reportName><%= html["report_name"] %></reportName>
           <reportDir><%= html["report_dir"] %></reportDir>
