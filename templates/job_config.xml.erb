@@ -207,7 +207,7 @@
           <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>
     <% end %>
-    <% if @cobertura %>
+    <% if !@cobertura.empty? %>
     <hudson.plugins.cobertura.CoberturaPublisher plugin="cobertura@1.9.1">
           <coberturaReportFile><%= @cobertura['coverage_file'] %></coberturaReportFile>
           <onlyStable>true</onlyStable>
